@@ -25,5 +25,17 @@ namespace API.Repositories
                 return companies.ToList();
             }
         }
+
+        public async Task<Company> GetCompany(int id)
+        {
+            var query = $"SELECT Id, Name AS CompanyName, Address, Country FROM Companies WHERE Id = @Id";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var company = await connection.QuerySingleOrDefaultAsync<Company>(query, new { id });
+
+                return company;
+            }
+        }
     }
 }

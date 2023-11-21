@@ -22,5 +22,18 @@ namespace API.Controllers
 
             return Ok(companies);
         }
+
+        [HttpGet("{id}", Name ="GetCompanyById")]
+        public async Task<IActionResult> GetCompany(int id)
+        {
+            var company = await _companyRepo.GetCompany(id);
+
+            if(company == null) 
+            {
+                return NotFound();
+            }
+
+            return Ok(company);
+        }
     }
 }

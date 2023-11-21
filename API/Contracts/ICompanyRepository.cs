@@ -5,5 +5,6 @@ namespace API.Contracts
     public interface ICompanyRepository
     {
         Task<IEnumerable<Company>> GetCompanies();
+        Task<Company> GetCompany(int id);
     }
 }
