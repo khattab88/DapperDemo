@@ -16,7 +16,7 @@ namespace API.Repositories
 
         public async Task<IEnumerable<Company>> GetCompanies()
         {
-            var query = "SELECT * FROM Companies";
+            var query = "SELECT Id, Name AS CompanyName, Address, Country FROM Companies";
 
             using(var connection = _context.CreateConnection()) 
             {
