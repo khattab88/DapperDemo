@@ -82,5 +82,16 @@ namespace API.Controllers
 
             return Ok(company);
         }
+
+        [HttpGet("{id}/WithEmployees")]
+        public async Task<IActionResult> GetCompnyWithEmployees(int id)
+        {
+            var company = await _companyRepo.GetMultipleResults(id);
+
+            if(company is null)
+                return NotFound();
+
+            return Ok(company);
+        }
     }
 }

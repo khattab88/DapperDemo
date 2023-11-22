@@ -94,6 +94,25 @@ namespace API.Repositories
             }
         }
 
+        public async Task<Company> GetMultipleResults(int id)
+        {
+            var query = "SELECT * FROM Companies WHERE Id = @Id;" +
+                "SELECT * FROM Employees WHERE CompanyId = @Id";
+
+            using (var connection = _context.CreateConnection())
+            using (var multiple = await connection.QueryMultipleAsync(query, new { id }))
+            {
+                var company = await multiple.ReadSingleOrDefaultAsync<Company>();
+
+                if (company is not null)
+                {
+                    company.Employees = (await multiple.ReadAsync<Employee>()).ToList();
+                }
+
+                return company;
+            }
+        }
+
         public async Task UpdateCompany(int id, CompanyUpdateDto company)
         {
             var query = "UPDATE Companies SET Name = @Name, Address = @Address, Country = @Country WHERE Id = @Id";
