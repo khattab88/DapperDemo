@@ -1,4 +1,5 @@
 ﻿using API.Contracts;
+using API.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,14 @@ namespace API.Controllers
             }
 
             return Ok(company);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCOmpany([FromBody] CompanyCreateDto company)
+        {
+            var created = await _companyRepo.CreateCompany(company);
+
+            return CreatedAtRoute("GetCompanyById", new { id = created.Id }, created);
         }
     }
 }

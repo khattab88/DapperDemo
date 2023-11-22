@@ -1,4 +1,5 @@
-﻿using API.Entities;
+﻿using API.Dtos;
+using API.Entities;
 
 namespace API.Contracts
 {
@@ -6,5 +7,6 @@ namespace API.Contracts
     {
         Task<IEnumerable<Company>> GetCompanies();
         Task<Company> GetCompany(int id);
+        Task<Company> CreateCompany(CompanyCreateDto company);
     }
 }
