@@ -13,5 +13,6 @@ namespace API.Contracts
         Task<Company> GetCompanyByEmployeeId(int empId);
         Task<Company> GetMultipleResults(int id);
         Task<List<Company>> MultipleMapping();
+        Task CreateMultipleCompanies(List<CompanyCreateDto> companies);
     }
 }

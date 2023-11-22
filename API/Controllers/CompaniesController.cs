@@ -101,5 +101,13 @@ namespace API.Controllers
 
             return Ok(companies);
         }
+
+        [HttpPost("CreateMultipleCompanies")]
+        public async Task<IActionResult> CreateMultipleCompanies([FromBody] List<CompanyCreateDto> companies)
+        {
+            await _companyRepo.CreateMultipleCompanies(companies);
+
+            return NoContent();
+        }
     }
 }
