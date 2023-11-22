@@ -113,6 +113,31 @@ namespace API.Repositories
             }
         }
 
+        public async Task<List<Company>> MultipleMapping()
+        {
+            var query = "SELECT * FROM Companies c JOIN Employees e on c.Id = e.CompanyId";
+
+            using (var connection = _context.CreateConnection()) 
+            {
+                var companyDict = new Dictionary<int, Company>();
+
+                var companies = await connection.QueryAsync<Company, Employee, Company>(query, (company, employee) =>
+                {
+                    if(!companyDict.TryGetValue(company.Id, out var currentCompany))
+                    {
+                        currentCompany = company;
+                        companyDict.Add(company.Id, currentCompany);
+                    }
+
+                    currentCompany.Employees.Add(employee);
+
+                    return currentCompany;
+                });
+
+                return companies.Distinct().ToList();
+            }
+        }
+
         public async Task UpdateCompany(int id, CompanyUpdateDto company)
         {
             var query = "UPDATE Companies SET Name = @Name, Address = @Address, Country = @Country WHERE Id = @Id";

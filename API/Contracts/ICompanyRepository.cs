@@ -12,5 +12,6 @@ namespace API.Contracts
         Task DeleteCompany(int id);
         Task<Company> GetCompanyByEmployeeId(int empId);
         Task<Company> GetMultipleResults(int id);
+        Task<List<Company>> MultipleMapping();
     }
 }
