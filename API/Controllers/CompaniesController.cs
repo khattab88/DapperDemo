@@ -71,5 +71,16 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("ByEmployeeId/{empId}")]
+        public async Task<IActionResult> GetCompanyByEmployeeId(int empId) 
+        {
+            var company = await _companyRepo.GetCompanyByEmployeeId(empId);
+
+            if (company is null)
+                return NotFound();
+
+            return Ok(company);
+        }
     }
 }

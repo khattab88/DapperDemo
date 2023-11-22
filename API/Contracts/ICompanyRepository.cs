@@ -10,6 +10,6 @@ namespace API.Contracts
         Task<Company> CreateCompany(CompanyCreateDto company);
         Task UpdateCompany(int id, CompanyUpdateDto company);
         Task DeleteCompany(int id);
-
+        Task<Company> GetCompanyByEmployeeId(int empId);
     }
 }

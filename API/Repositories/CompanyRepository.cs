@@ -79,6 +79,21 @@ namespace API.Repositories
             }
         }
 
+        public async Task<Company> GetCompanyByEmployeeId(int empId)
+        {
+            var procedureName = "ShowCompanyByEmployeeId";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("EmpId", empId, DbType.Int32, ParameterDirection.Input);
+
+            using(var connection = _context.CreateConnection()) 
+            {
+                var company = await connection.QueryFirstOrDefaultAsync<Company>(procedureName, parameters, commandType: CommandType.StoredProcedure);
+
+                return company;
+            }
+        }
+
         public async Task UpdateCompany(int id, CompanyUpdateDto company)
         {
             var query = "UPDATE Companies SET Name = @Name, Address = @Address, Country = @Country WHERE Id = @Id";
