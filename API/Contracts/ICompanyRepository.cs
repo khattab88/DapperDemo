@@ -8,5 +8,8 @@ namespace API.Contracts
         Task<IEnumerable<Company>> GetCompanies();
         Task<Company> GetCompany(int id);
         Task<Company> CreateCompany(CompanyCreateDto company);
+        Task UpdateCompany(int id, CompanyUpdateDto company);
+        Task DeleteCompany(int id);
+
     }
 }

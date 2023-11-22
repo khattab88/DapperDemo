@@ -42,6 +42,19 @@ namespace API.Repositories
             }
         }
 
+        public async Task DeleteCompany(int id)
+        {
+            var query = "DELETE FROM Companies WHERE Id = @Id";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Int32);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
+        }
+
         public async Task<IEnumerable<Company>> GetCompanies()
         {
             var query = "SELECT Id, Name AS CompanyName, Address, Country FROM Companies";
@@ -56,13 +69,29 @@ namespace API.Repositories
 
         public async Task<Company> GetCompany(int id)
         {
-            var query = $"SELECT Id, Name AS CompanyName, Address, Country FROM Companies WHERE Id = @Id";
+            var query = $"SELECT Id, Name, Address, Country FROM Companies WHERE Id = @Id";
 
             using (var connection = _context.CreateConnection())
             {
                 var company = await connection.QuerySingleOrDefaultAsync<Company>(query, new { id });
 
                 return company;
+            }
+        }
+
+        public async Task UpdateCompany(int id, CompanyUpdateDto company)
+        {
+            var query = "UPDATE Companies SET Name = @Name, Address = @Address, Country = @Country WHERE Id = @Id";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Int32);
+            parameters.Add("Name", company.Name, DbType.String);
+            parameters.Add("Address", company.Address, DbType.String);
+            parameters.Add("Country", company.Country, DbType.String);
+
+            using(var connection = _context.CreateConnection()) 
+            {
+                await connection.ExecuteAsync(query, parameters);
             }
         }
     }

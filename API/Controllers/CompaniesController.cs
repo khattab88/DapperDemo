@@ -1,5 +1,6 @@
 ﻿using API.Contracts;
 using API.Dtos;
+using API.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,32 @@ namespace API.Controllers
             var created = await _companyRepo.CreateCompany(company);
 
             return CreatedAtRoute("GetCompanyById", new { id = created.Id }, created);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCompany(int id, [FromBody] CompanyUpdateDto company)
+        {
+            var existing = _companyRepo.GetCompany(id);
+
+            if (existing is null)
+                return NotFound();
+
+            await _companyRepo.UpdateCompany(id, company);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompany(int id)
+        {
+            var existing = _companyRepo.GetCompany(id);
+
+            if (existing is null)
+                return NotFound();
+
+            await _companyRepo.DeleteCompany(id);
+
+            return NoContent();
         }
     }
 }
